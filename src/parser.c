@@ -116,7 +116,41 @@ Result *route_set_request(Storage *storage, char *key, void *value) {
   return res;
 }
 
-Result *route_hset_request(Storage)
+Result *route_hset_request(Storage *storage, char *storage_key, char *h_key,
+                           void *value) {
+
+  Result *res = malloc(sizeof(Result));
+  if (!res) {
+    perror("failed allocate memory for request");
+
+    return NULL;
+  }
+
+  res->message = calloc(32, sizeof(char));
+  if (!res->message) {
+    perror("failed allocate memory for res message");
+    free(res);
+
+    return NULL;
+  }
+
+  DataObject *hash_table = storage_get(storage, storage_key);
+  if (hash_table == NULL) {
+    DataObject *obj = malloc(sizeof(DataObject));
+    if (!obj) {
+      perror("failed allocate memory for data object");
+
+      free(res->message);
+      free(res);
+
+      return NULL;
+    }
+
+    obj->type = HASH;
+
+    Hash *table = malloc(sizeof(Hash));
+  }
+}
 
 Result *route_request(char *request) {
   char *token;
