@@ -9,10 +9,7 @@ typedef struct {
   void *value;
 } DataObject;
 
-typedef struct {
-  int size;
-  DataObject *elements;
-} List;
+typedef char *String;
 
 typedef struct {
   char *key;
@@ -23,5 +20,3 @@ typedef struct {
   int size;
   KeyValuePair *pairs;
 } Hash;
-
-typedef char *String;
