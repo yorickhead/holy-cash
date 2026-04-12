@@ -1,22 +1,32 @@
+// data_types.h
+#ifndef DATA_TYPES_H
+#define DATA_TYPES_H
+
 typedef enum {
-  STRING,
-  HASH,
-  LIST,
+    STRING,
+    HASH,
+    LIST,
 } DataType;
 
 typedef struct {
-  DataType type;
-  void *value;
+    DataType type;
+    void *value;
 } DataObject;
 
 typedef char *String;
 
 typedef struct {
-  char *key;
-  DataObject value;
+    char *key;
+    String value;
 } KeyValuePair;
 
 typedef struct {
-  int size;
-  KeyValuePair *pairs;
+    int size;           
+    int count;          
+    KeyValuePair *pairs;
 } Hash;
+
+void destroy_hash(Hash *hash);
+int hash_set(Hash *hash, char *key, String value);
+
+#endif
