@@ -128,7 +128,7 @@ String hash_get(Hash *table, const char *key) {
 
   do {
     if (table->pairs[index].key == NULL) {
-      return NULL; // не найдено
+      return NULL;
     }
 
     if (strcmp(table->pairs[index].key, key) == 0) {
