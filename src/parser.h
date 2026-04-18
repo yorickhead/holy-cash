@@ -31,6 +31,6 @@ typedef struct {
   DataObject *value;
 } Result;
 
-Result *route_request(char *request);
+Result *route_request(Storage *storage, char *request);
 
 #endif
