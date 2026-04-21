@@ -108,6 +108,12 @@ Result *route_hset_request(Storage *storage, char *storage_key, char *h_key,
   SUCCESS_RESULT(NULL)
 }
 
+Result *route_hget_request(Storage *storage, char *key, char *hkey) {
+  DataObject *hash_table_obj = storage_get(storage, key);
+  if (hash_table_obj == NULL) {
+  }
+}
+
 Result *route_request(Storage *storage, char *request) {
   char *token;
   char *saveptr;
@@ -138,9 +144,21 @@ Result *route_request(Storage *storage, char *request) {
 
   switch (rt) {
   case REMOVE:
-    route_remove_request(storage, key);
+    return route_remove_request(storage, key);
   case GET:
-    route_get_request(storage, key);
+    return route_get_request(storage, key);
   case SET:
+    return route_set_request(storage, key, args);
+  case HASH_SET:
+    saveptr = NULL;
+
+    token = strtok_r(args, " ", &saveptr);
+    char *hkey = strdup(token);
+
+    token = strtok_r(NULL, " ", &saveptr);
+    char *hvalue = strdup(token);
+
+    return route_hset_request(storage, key, hkey, hvalue);
+  case HASH_GET:
   }
 }
