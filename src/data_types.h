@@ -26,6 +26,8 @@ typedef struct {
   KeyValuePair *pairs;
 } Hash;
 
+DataObject *create_data_object(DataType type, void *value);
+
 Hash *create_hash_table(void);
 
 int hash_set(Hash *table, char *key, String value);
