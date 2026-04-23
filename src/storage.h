@@ -21,6 +21,8 @@ typedef struct {
 } Storage;
 
 Storage *create_storage(size_t initial_capacity);
+DataObject *create_data_object();
+
 void storage_destroy(Storage *storage);
 
 int storage_set(Storage *storage, const char *key, DataObject *value);
