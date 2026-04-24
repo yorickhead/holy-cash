@@ -111,7 +111,38 @@ Result *route_hset_request(Storage *storage, char *storage_key, char *h_key,
 Result *route_hget_request(Storage *storage, char *key, char *hkey) {
   DataObject *hash_table_obj = storage_get(storage, key);
   if (hash_table_obj == NULL) {
+    ERROR_RESULT("failed allocate");
   }
+
+  if (hash_table_obj->type == HASH) {
+    ERROR_RESULT("obj type is not hash");
+  }
+
+  Hash *hash = (Hash *)hash_table_obj->value;
+  String value = hash_get(hash, hkey);
+  if (value == NULL) {
+    ERROR_RESULT("failed get from hash");
+  }
+
+  DataObject *obj = create_data_object(STRING, (void *)value);
+  if (!obj) {
+    ERROR_RESULT("failed create data object");
+  }
+
+  SUCCESS_RESULT(obj)
+}
+
+Result *route_hremove_request(Storage *storage, char *key, char *hkey) {
+  DataObject *hash_table_obj = storage_get(storage, key);
+  if (hash_table_obj == NULL) {
+    ERROR_RESULT("failed allocate");
+  }
+
+  if (hash_table_obj->type == HASH) {
+    ERROR_RESULT("obj type is not hash");
+  }
+
+  Hash *hash = (Hash *)hash_table_obj->value;
 }
 
 Result *route_request(Storage *storage, char *request) {
@@ -160,5 +191,10 @@ Result *route_request(Storage *storage, char *request) {
 
     return route_hset_request(storage, key, hkey, hvalue);
   case HASH_GET:
+    return route_hget_request(storage, key, args);
+  case HASH_REMOVE:
+
+  case UNKNOWN:
+    ERROR_RESULT("unknown operation type");
   }
 }
