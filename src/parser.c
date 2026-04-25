@@ -143,6 +143,7 @@ Result *route_hremove_request(Storage *storage, char *key, char *hkey) {
   }
 
   Hash *hash = (Hash *)hash_table_obj->value;
+  
 }
 
 Result *route_request(Storage *storage, char *request) {
