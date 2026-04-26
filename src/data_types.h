@@ -36,4 +36,6 @@ String hash_get(Hash *table, const char *key);
 void destroy_hash(Hash *hash);
 int hash_set(Hash *hash, char *key, String value);
 
+int hash_remove(Hash *hash, char *key);
+
 #endif
