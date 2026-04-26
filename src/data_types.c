@@ -119,6 +119,35 @@ int hash_set(Hash *table, char *key, String value) {
   return -1;
 }
 
+int hash_remove(Hash *table, char *key) {
+  if (!table || !key)
+    return -1;
+
+  unsigned int index = hash_function(key) % table->size;
+  unsigned int start_index = index;
+
+  do {
+    if (table->pairs[index].key == NULL) {
+      return -1;
+    }
+
+    if (strcmp(table->pairs[index].key, key) == 0) {
+      free(table->pairs[index].key);
+      free(table->pairs[index].value);
+
+      table->pairs[index].key = NULL;
+      table->pairs[index].value = NULL;
+
+      table->count--;
+      return 0;
+    }
+
+    index = (index + 1) % table->size;
+  } while (index != start_index);
+
+  return -1;
+}
+
 String hash_get(Hash *table, const char *key) {
   if (!table || !key)
     return NULL;
