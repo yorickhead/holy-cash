@@ -135,14 +135,24 @@ Result *route_hget_request(Storage *storage, char *key, char *hkey) {
 Result *route_hremove_request(Storage *storage, char *key, char *hkey) {
   DataObject *hash_table_obj = storage_get(storage, key);
   if (hash_table_obj == NULL) {
-    ERROR_RESULT("failed allocate");
+    ERROR_RESULT("failed get hash");
   }
 
-  if (hash_table_obj->type == HASH) {
+  if (hash_table_obj->type != HASH) {
     ERROR_RESULT("obj type is not hash");
   }
 
+  if (hash_table_obj->value == NULL) {
+    ERROR_RESULT("nil value");
+  }
+
   Hash *hash = (Hash *)hash_table_obj->value;
+  int status = hash_remove(hash, key);
+  if (status != 0) {
+    ERROR_RESULT("failed remove from hash");
+  }
+
+  SUCCESS_RESULT(NULL);
 }
 
 Result *route_request(Storage *storage, char *request) {
