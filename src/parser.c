@@ -203,7 +203,7 @@ Result *route_request(Storage *storage, char *request) {
   case HASH_GET:
     return route_hget_request(storage, key, args);
   case HASH_REMOVE:
-
+    return route_hremove_request(storage, key, hkey);
   case UNKNOWN:
     ERROR_RESULT("unknown operation type");
   }
